@@ -1,0 +1,53 @@
+Lab 3
+Derick Falk
+
+1. Scanning a minimum Clite program
+
+
+Concrete syntax: <program> -> int main { '{' Declarations Statements '}'}
+
+Abstract syntax:
+Program:
+	Declarations:
+		Declarations = {}
+	Block:
+
+
+
+Tokens: int, main, (, ), {, }
+
+Output from completed Lexer
+
+int
+main
+(
+)
+{
+}
+
+2. Lexing the unambiguous single-character tokens
+
+I am going to just go ahead and try to implement all of them
+
+int
+ main
+ (
+ )
+ {
+  ,
+  ;
+  ==
+  =
+  while
+  (
+  <
+  <=
+  >=
+  )
+  }
+  +
+  ;
+ *
+
+Overall I found this to be pretty easy I was able to get all the tokens working and getting chkopt working was not too difficult.
+ 

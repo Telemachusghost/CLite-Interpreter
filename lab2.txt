@@ -1,0 +1,70 @@
+Lab 2
+Derick Falk
+
+1. List of lexemes
+
+<<EOF>>
+bool
+char
+else
+flase
+float
+if
+int
+main
+true
+while
+{
+}
+[
+]
+(
+)
+;
+,
+=
+==
+<
+<=
+>
+>=
+!
+!=
++
+-
+*
+/
+&&
+||
+
+2. Sequence of tokens in factorial.cpp
+
+ int
+main
+(
+)
+{
+int
+,
+;
+=
+=
+=
+while
+(
+<
+)
+{
+=
++
+;
+=
+*
+;
+}
+}
+
+3. List of lexemes that need to be added to lexer.java
+< > ! ln 97
+
+- * ( ) { } ; , ln 89

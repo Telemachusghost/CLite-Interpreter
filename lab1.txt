@@ -1,0 +1,7 @@
+Lab 1 
+Derick Falk
+
+The lexer doesnt have a definition for '('
+
+In the Lexer source file there is a student exercise to add the paren tokens
+at line 90
