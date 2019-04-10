@@ -120,7 +120,12 @@ public class Lexer {
     }
   
     private boolean isDigit(char c) {
-        return false;  // student exercise
+        if (digits.indexOf(c) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+          
     }
 
     private void check(char c) {

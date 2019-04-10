@@ -1,0 +1,64 @@
+Lab 4
+Derick Falk
+
+1. 
+
+I think it doesnt compile because the name of the file is not the same
+as the class i.e Program
+
+2. Code for assignment
+
+private Assignment assignment () {
+        // Assignment --> Identifier = Expression ;
+        String ident = match(TokenType.Identifier);
+        Expression express = expression();
+        match(TokenType.Assign);
+        Assignment assign = new Assignment(ident, expression);
+        match(TokenType.SemiColon);
+
+        return assign;  // student exercise
+}
+
+
+3. Code for statements
+
+   private Block statements () {
+        // Block --> '{' Statements '}'
+        Block b = new Block();
+        // While loop that adds a statement to block ArrayList at each step
+        while (token.type() != TokenType.RightBrace && token.type() != TokenType.Eof) {
+            b.members.add(statement());
+        }
+        
+        return b;
+    }
+
+4. Code for statement
+
+    private Statement statement() {
+        // Statement --> ; | Block | Assignment | IfStatement | WhileStatement
+        
+       
+        // Check case for it being assign and then return that
+        if (token.type().equals(TokenType.Identifier)) {
+
+            Statement s =  assignment();
+            System.out.println(s.toString());
+            return s;
+            
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+
+5. 'Pretty' print of a minprog file
+
+a=45
+b=99
+Abstract Syntax:
+        Declarations:
+        []
+        Body:
+        a=45
+        b=99

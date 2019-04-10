@@ -13,6 +13,25 @@ class Program {
         body = b;
     }
 
+    // This is just quick and dirty for now
+    void display() {
+
+
+        System.out.println("Abstract Syntax:");
+        System.out.print("\t");
+
+        System.out.println("Declarations: ");
+        System.out.print("\t");
+        System.out.println(decpart);
+
+        System.out.print("\t");
+        System.out.println("Body: ");
+
+
+
+        body.members.forEach((s) -> System.out.println("\t" + s.toString()));
+    }
+
 }
 
 class Declarations extends ArrayList<Declaration> {
@@ -72,6 +91,9 @@ class Assignment extends Statement {
         source = e;
     }
 
+    public String toString() {
+        return target.toString() + "=" + source.toString();
+    }
 }
 
 class Conditional extends Statement {
@@ -160,6 +182,7 @@ abstract class Value extends Expression {
         if (type == Type.FLOAT) return new FloatValue( );
         throw new IllegalArgumentException("Illegal type in mkValue");
     }
+
 }
 
 class IntValue extends Value {

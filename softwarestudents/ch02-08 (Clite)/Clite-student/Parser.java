@@ -42,9 +42,14 @@ public class Parser {
         for (int i=0; i<header.length; i++)   // bypass "int main ( )"
             match(header[i]);
         match(TokenType.LeftBrace);
-        // student exercise
+        Declarations d = new Declarations();
+        Block body = statements();
         match(TokenType.RightBrace);
-        return null;  // student exercise
+        
+        //Block body = new Block();
+        Program prog = new Program(d, body);
+
+        return prog;  // student exercise
     }
   
     private Declarations declarations () {
@@ -66,21 +71,46 @@ public class Parser {
   
     private Statement statement() {
         // Statement --> ; | Block | Assignment | IfStatement | WhileStatement
-        Statement s = new Skip();
-        // student exercise
-        return s;
+        
+       
+        // Check case for it being assign and then return that
+        if (token.type().equals(TokenType.Identifier)) {
+
+            Statement s =  assignment();
+            System.out.println(s.toString());
+            return s;
+            
+        } else {
+            throw new RuntimeException();
+        }
     }
   
     private Block statements () {
         // Block --> '{' Statements '}'
         Block b = new Block();
-        // student exercise
+        // While loop that adds a statement to block ArrayList at each step
+        while (token.type() != TokenType.RightBrace && token.type() != TokenType.Eof) {
+            b.members.add(statement());
+        }
+        
         return b;
     }
   
     private Assignment assignment () {
         // Assignment --> Identifier = Expression ;
-        return null;  // student exercise
+        
+        String ident = match(TokenType.Identifier);
+
+        Variable var = new Variable(ident);
+
+        
+       
+        match(TokenType.Assign);
+        Expression express = expression();
+        Assignment assign = new Assignment(var, express);
+        match(TokenType.Semicolon);
+
+        return assign;  // student exercise
     }
   
     private Conditional ifStatement () {
@@ -95,22 +125,22 @@ public class Parser {
 
     private Expression expression () {
         // Expression --> Conjunction { || Conjunction }
-        return null;  // student exercise
+        return conjunction();  // student exercise
     }
   
     private Expression conjunction () {
         // Conjunction --> Equality { && Equality }
-        return null;  // student exercise
+        return equality();  // student exercise
     }
   
     private Expression equality () {
         // Equality --> Relation [ EquOp Relation ]
-        return null;  // student exercise
+        return relation();  // student exercise
     }
 
     private Expression relation (){
         // Relation --> Addition [RelOp Addition] 
-        return null;  // student exercise
+        return addition();  // student exercise
     }
   
     private Expression addition () {
@@ -159,7 +189,7 @@ public class Parser {
             match(TokenType.RightParen);
         } else if (isType( )) {
             Operator op = new Operator(match(token.type()));
-            match(TokenType.LeftParen);
+            match(TokenType.LeftParen); 
             Expression term = expression();
             match(TokenType.RightParen);
             e = new Unary(op, term);
@@ -168,7 +198,17 @@ public class Parser {
     }
 
     private Value literal( ) {
-        return null;  // student exercise
+        int integer = 0;
+        IntValue value = null;
+        if (token.type().equals(TokenType.IntLiteral)) {
+            integer = Integer.parseInt(token.value());
+            value = new IntValue(integer);
+            token = lexer.next();
+        } else {
+            throw new RuntimeException(); 
+        }
+        
+        return value;
     }
   
 
