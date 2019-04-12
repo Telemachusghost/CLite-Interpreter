@@ -8,3 +8,8 @@ public enum TokenType {
      Divide, And, Or, Identifier, IntLiteral,
      FloatLiteral, CharLiteral
 }
+
+/*
+Types: Bool, Char, Float, Int
+Keywords: If, Main, While, 
+*/

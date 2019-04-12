@@ -1,0 +1,46 @@
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: b
+		Type: int
+		Variable: a
+		Type: int
+	Body: 
+	If Statement: 
+		Test: 
+		BinaryOp:
+			OP: >
+			IntValue: 1
+			IntValue: 2
+		Then Branch: 
+		Body: 
+		Assignment:
+			Variable: a
+			BinaryOp:
+				OP: +
+				IntValue: 2
+				IntValue: 3
+		Else Branch: 
+		Body: 
+		Assignment:
+			Variable: b
+			BinaryOp:
+				OP: +
+				IntValue: 2
+				IntValue: 5
+	LOOP: 
+		BinaryOp:
+			OP: <
+			IntValue: 1
+			Variable: x
+		Body: 
+		Assignment:
+			Variable: b
+			BinaryOp:
+				OP: +
+				Variable: i
+				IntValue: 1
+	Assignment:
+		Variable: a
+		UnaryOp: 
+			OP: int
+			IntValue: 2

@@ -1,0 +1,83 @@
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: b
+		Type: int
+		Variable: a
+		Type: int
+	Body: 
+	Assignment:
+		Variable: a
+		IntValue: 45
+	Assignment:
+		Variable: b
+		IntValue: 42
+	Assignment:
+		Variable: c
+		BinaryOp:
+			OP: +
+			IntValue: 2
+			IntValue: 5
+	Assignment:
+		Variable: d
+		BinaryOp:
+			OP: *
+			IntValue: 2
+			IntValue: 5
+	Assignment:
+		Variable: e
+		BinaryOp:
+			OP: /
+			IntValue: 2
+			IntValue: 4
+	Assignment:
+		Variable: f
+		BinaryOp:
+			OP: ==
+			IntValue: 2
+			IntValue: 2
+	Assignment:
+		Variable: g
+		BinaryOp:
+			OP: >
+			IntValue: 2
+			IntValue: 4
+	Assignment:
+		Variable: h
+		BinaryOp:
+			OP: <
+			IntValue: 2
+			IntValue: 4
+	Assignment:
+		Variable: i
+		BinaryOp:
+			OP: <=
+			IntValue: 2
+			IntValue: 4
+	Assignment:
+		Variable: j
+		BinaryOp:
+			OP: >=
+			IntValue: 2
+			IntValue: 4
+	Assignment:
+		Variable: l
+		BinaryOp:
+			OP: ||
+			Variable: a
+			Variable: b
+	Assignment:
+		Variable: m
+		BinaryOp:
+			OP: &&
+			Variable: a
+			Variable: b
+	Assignment:
+		Variable: n
+		UnaryOp: 
+			OP: !
+			Variable: f
+	Assignment:
+		Variable: o
+		UnaryOp: 
+			OP: -
+			IntValue: 2

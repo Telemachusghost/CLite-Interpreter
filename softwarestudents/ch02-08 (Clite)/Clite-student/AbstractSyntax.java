@@ -16,20 +16,13 @@ class Program {
     // This is just quick and dirty for now
     void display() {
 
+        int indent = 0;
+        indent++;
+        System.out.println("Program (Abstract Syntax):");
+        decpart.display(indent);
 
-        System.out.println("Abstract Syntax:");
-        System.out.print("\t");
+        body.display(indent);
 
-        System.out.println("Declarations: ");
-        System.out.print("\t");
-        System.out.println(decpart);
-
-        System.out.print("\t");
-        System.out.println("Body: ");
-
-
-
-        body.members.forEach((s) -> System.out.println("\t" + s.toString()));
     }
 
 }
@@ -38,6 +31,11 @@ class Declarations extends ArrayList<Declaration> {
     // Declarations = Declaration*
     // (a list of declarations d1, d2, ..., dn)
 
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("Declarations: ");
+        this.forEach((s) -> s.display(indent+1));
+    }
 }
 
 class Declaration {
@@ -48,6 +46,13 @@ class Declaration {
     Declaration (Variable var, Type type) {
         v = var; t = type;
     } // declaration */
+
+    public void display(int indent) {
+
+        v.display(indent);
+        t.display(indent);
+
+    }
 
 }
 
@@ -64,14 +69,23 @@ class Type {
     private Type (String t) { id = t; }
 
     public String toString ( ) { return id; }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("Type: " + id);
+    }
 }
 
 abstract class Statement {
     // Statement = Skip | Block | Assignment | Conditional | Loop
 
+    public abstract void display(int indent);
 }
 
 class Skip extends Statement {
+    public void display(int indent) {
+        
+    }
 }
 
 class Block extends Statement {
@@ -79,6 +93,11 @@ class Block extends Statement {
     //         (a Vector of members)
     public ArrayList<Statement> members = new ArrayList<Statement>();
 
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("Body: ");
+        members.forEach((s) -> s.display(indent));
+    }
 }
 
 class Assignment extends Statement {
@@ -91,8 +110,12 @@ class Assignment extends Statement {
         source = e;
     }
 
-    public String toString() {
-        return target.toString() + "=" + source.toString();
+
+    public void display(int indent) {
+       astDisplay.indentN(indent);
+       System.out.println("Assignment:");
+       target.display(indent+1);
+       source.display(indent+1);
     }
 }
 
@@ -109,6 +132,26 @@ class Conditional extends Statement {
     Conditional (Expression t, Statement tp, Statement ep) {
         test = t; thenbranch = tp; elsebranch = ep;
     }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("If Statement: ");
+        
+        astDisplay.indentN(indent+1);
+        System.out.println("Test: ");
+        test.display(indent+1);
+        
+        astDisplay.indentN(indent+1);
+        System.out.println("Then Branch: ");
+        thenbranch.display(indent+1);
+        
+        if (!(elsebranch instanceof Skip)) {
+            astDisplay.indentN(indent+1);
+            System.out.println("Else Branch: ");
+            elsebranch.display(indent+1);
+        }
+
+    }
     
 }
 
@@ -120,11 +163,20 @@ class Loop extends Statement {
     Loop (Expression t, Statement b) {
         test = t; body = b;
     }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("Loop: ");
+        test.display(indent+1);
+        body.display(indent+1);
+    }
     
 }
 
 abstract class Expression {
     // Expression = Variable | Value | Binary | Unary
+
+    public abstract void display(int indent);
 
 }
 
@@ -142,6 +194,11 @@ class Variable extends Expression {
     }
     
     public int hashCode ( ) { return id.hashCode( ); }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("Variable: " + id);
+    }
 
 }
 
@@ -202,6 +259,11 @@ class IntValue extends Value {
         return "" + value;
     }
 
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("IntValue: " + value);
+    }
+
 }
 
 class BoolValue extends Value {
@@ -226,6 +288,11 @@ class BoolValue extends Value {
         return "" + value;
     }
 
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("BoolValue: " + value);
+    }
+
 }
 
 class CharValue extends Value {
@@ -243,6 +310,11 @@ class CharValue extends Value {
     public String toString( ) {
         if (undef)  return "undef";
         return "" + value;
+    }
+
+     public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("CharValue: " + value);
     }
 
 }
@@ -264,6 +336,11 @@ class FloatValue extends Value {
         return "" + value;
     }
 
+     public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("FloatValue: " + value);
+    }
+
 }
 
 class Binary extends Expression {
@@ -275,6 +352,14 @@ class Binary extends Expression {
         op = o; term1 = l; term2 = r;
     } // binary
 
+     public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("BinaryOp:");
+        op.display(indent+1);
+        term1.display(indent+1);
+        term2.display(indent+1);
+    }
+
 }
 
 class Unary extends Expression {
@@ -285,6 +370,13 @@ class Unary extends Expression {
     Unary (Operator o, Expression e) {
         op = o; term = e;
     } // unary
+
+     public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("UnaryOp: ");
+        op.display(indent+1);
+        term.display(indent+1);
+    }
 
 }
 
@@ -365,7 +457,10 @@ class Operator {
     
     Operator (String s) { val = s; }
 
-    public String toString( ) { return val; }
+    public void display(int indent ) { 
+        astDisplay.indentN(indent);
+        System.out.println("OP: " + val); 
+    }
     public boolean equals(Object obj) { return val.equals(obj); }
     
     boolean BooleanOp ( ) { return val.equals(AND) || val.equals(OR); }
@@ -434,4 +529,15 @@ class Operator {
         return map (boolMap, op);
     }
 
+}
+
+// Utility class for displaying AST
+class astDisplay {
+    public static void indentN(int indent) {
+        // Inserts N tab characters
+        for (int i = indent; i > 0; i--) {
+             System.out.print('\t');
+        
+        }
+    }
 }

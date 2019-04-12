@@ -42,7 +42,7 @@ public class Parser {
         for (int i=0; i<header.length; i++)   // bypass "int main ( )"
             match(header[i]);
         match(TokenType.LeftBrace);
-        Declarations d = new Declarations();
+        Declarations d = declarations();
         Block body = statements();
         match(TokenType.RightBrace);
         
@@ -54,35 +54,93 @@ public class Parser {
   
     private Declarations declarations () {
         // Declarations --> { Declaration }
-        return null;  // student exercise
+        Declarations dec = new Declarations();
+        while (isType()) {
+            declaration(dec);
+        }
+
+        return dec;  // student exercise
     }
   
     private void declaration (Declarations ds) {
         // Declaration  --> Type Identifier { , Identifier } ;
+        // Match type
+        String var;
+
+        Type typeT = type();
+
+        // Loop on identifier
+        var = match(TokenType.Identifier);
+        while (token.type() != TokenType.Semicolon) {
+            match(TokenType.Comma);
+            String vs = match(TokenType.Identifier);
+            Variable vV = new Variable(vs);
+            Declaration decT = new Declaration(vV, typeT);
+            ds.add(decT);
+        }
+        match(TokenType.Semicolon);
+        Variable varV = new Variable(var);
+        Declaration dec = new Declaration(varV,typeT);
+        ds.add(dec);
+        // Match identifier
+        // If no semicolon repeat loop 
+        // Match semicolon
+        // Add declaration to arraylist
         // student exercise
     }
   
     private Type type () {
         // Type  -->  int | bool | float | char 
         Type t = null;
-        // student exercise
+            switch(token.type()) {
+            
+            case Char:
+                match(TokenType.Char);
+                t = Type.CHAR;
+                break;
+            case Bool:
+                match(TokenType.Bool);
+                t = Type.BOOL;
+                break;
+            case Int:
+                match(TokenType.Int);
+                t = Type.INT;
+                break;
+            case Float:
+                match(TokenType.Float);
+                t = Type.FLOAT;
+                break;
+        }
         return t;          
     }
-  
+
+
     private Statement statement() {
         // Statement --> ; | Block | Assignment | IfStatement | WhileStatement
         
-       
+       Statement s = null;
         // Check case for it being assign and then return that
-        if (token.type().equals(TokenType.Identifier)) {
-
-            Statement s =  assignment();
-            System.out.println(s.toString());
-            return s;
-            
-        } else {
-            throw new RuntimeException();
+        // TODO: case statement that checks if its an Block, Assignment IfStatement, WhleStatement, or Semicolon
+        switch(token.type()) {
+            case Identifier:
+                s =  assignment();
+                return s;
+            case If:
+                s = ifStatement();
+                return s;
+            case LeftBrace:
+                match(TokenType.LeftBrace);
+                s = statements();
+                match(TokenType.RightBrace);
+                return s;
+            case While:
+                s = whileStatement();
+                return s;
+            case Semicolon:
+                s = skip();
+                return s;
         }
+        return skip();
     }
   
     private Block statements () {
@@ -115,32 +173,82 @@ public class Parser {
   
     private Conditional ifStatement () {
         // IfStatement --> if ( Expression ) Statement [ else Statement ]
-        return null;  // student exercise
+        Statement thenBranch = null;
+        Statement elseBranch = null;
+        match(TokenType.If);
+
+        match(TokenType.LeftParen);
+        Expression e = expression();
+        match(TokenType.RightParen);
+        
+        thenBranch = statement();
+        if (token.type() == TokenType.Else) {
+            match(TokenType.Else);
+            elseBranch = statement();
+            return new Conditional(e, thenBranch, elseBranch);  
+        } else {
+            elseBranch = skip();
+        }
+
+
+        return new Conditional(e, thenBranch, elseBranch);  
     }
   
     private Loop whileStatement () {
         // WhileStatement --> while ( Expression ) Statement
-        return null;  // student exercise
+        match(TokenType.While);
+        match(TokenType.LeftParen);
+        Expression e = expression();
+        match(TokenType.RightParen);
+        Statement s = statement();
+
+        return new Loop(e, s);  
     }
+
+    private Statement skip() {return new Skip();}
 
     private Expression expression () {
         // Expression --> Conjunction { || Conjunction }
-        return conjunction();  // student exercise
+        Expression e = conjunction();
+        while (token.type() == TokenType.Or) {
+            Operator op = new Operator(match(TokenType.Or));
+            Expression conj = conjunction();
+            e = new Binary(op, e, conj);
+        }
+        return e;  
     }
   
     private Expression conjunction () {
         // Conjunction --> Equality { && Equality }
-        return equality();  // student exercise
+       Expression e = equality();
+        while (token.type() == TokenType.And) {
+            Operator op = new Operator(match(TokenType.And));
+            Expression eq2 = equality();
+            e = new Binary(op, e, eq2);
+        }
+        return e;  
     }
   
     private Expression equality () {
         // Equality --> Relation [ EquOp Relation ]
-        return relation();  // student exercise
+        Expression e = relation();
+        while (isEqualityOp()) {
+            Operator op = new Operator(match(token.type()));
+            Expression rel = relation();
+            e = new Binary(op, e, rel);
+        }
+        return e;  
     }
 
     private Expression relation (){
         // Relation --> Addition [RelOp Addition] 
-        return addition();  // student exercise
+        Expression e = addition();
+        while (isRelationalOp()) {
+            Operator op = new Operator(match(token.type()));
+            Expression add = addition();
+            e = new Binary(op, e, add);
+        }
+        return e;  
     }
   
     private Expression addition () {
