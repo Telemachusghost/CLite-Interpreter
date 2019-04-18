@@ -1,18 +1,11 @@
 int main() {
-	int a, b;
-	a = 45;
-	b = 42;
-	c = 2 + 5;
-	d = 2 * 5;
-	e = 2 / 4;
-	f = 2 == 2;
-	g = 2 > 4;
-	h = 2 < 4;
-	i = 2 <= 4;
-	j = 2 >= 4;
-	l = a || b;
-	m = a && b;
-	n = !f;
-	o = -2;
+	int a;
+	bool b;
+	float c;
+	char d;
 
+	b = true;
+	b = false;
+	c = 3.14;
+	d = 'f';
 }

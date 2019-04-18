@@ -1,0 +1,12 @@
+Lab 5
+Derick Falk
+
+Program (Abstract Syntax):
+        Assignment:
+                Variable: a
+                IntValue: 45
+        Assignment:
+                Variable: b
+                IntValue: 99
+
+             

@@ -307,12 +307,26 @@ public class Parser {
 
     private Value literal( ) {
         int integer = 0;
-        IntValue value = null;
+        Value value = null;
         if (token.type().equals(TokenType.IntLiteral)) {
             integer = Integer.parseInt(token.value());
             value = new IntValue(integer);
             token = lexer.next();
-        } else {
+        } if (token.type().equals(TokenType.True)) {
+            value = new BoolValue(true);
+            token = lexer.next();
+        } if (token.type().equals(TokenType.False)) {
+            value = new BoolValue(false);
+            token = lexer.next();
+        } if (token.type().equals(TokenType.FloatLiteral)) {
+            float floatNum = Float.parseFloat(token.value());
+            value = new FloatValue(floatNum);
+            token = lexer.next();
+        } if (token.type().equals(TokenType.CharLiteral)) {
+            char c = token.value().charAt(0);
+            value = new CharValue(c);
+            token = lexer.next();
+        } else if (value == null) {
             throw new RuntimeException(); 
         }
         

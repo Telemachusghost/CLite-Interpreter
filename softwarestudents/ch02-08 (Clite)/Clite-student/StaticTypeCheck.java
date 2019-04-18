@@ -91,9 +91,19 @@ public class StaticTypeCheck {
             else
                 throw new IllegalArgumentException("should never reach here");
             return;
+        } 
+        if (e instanceof Unary) {
+            Unary u = (Unary) e;
+            Type type = typeOf(u.term, tm);
+            V(u.term, tm);
+            if (u.op.NegateOp()) {
+                check(type == Type.BOOL, "type error for " + u.op);
+            } else if (u.op.NegateOp()) {
+                check(type == Type.INT || type == Type.FLOAT, u.op + ": Non numeric operand");
+            }
         }
         // student exercise
-        throw new IllegalArgumentException("should never reach here");
+         throw new IllegalArgumentException("should never reach here");
     }
 
     public static void V (Statement s, TypeMap tm) {
@@ -119,7 +129,9 @@ public class StaticTypeCheck {
                            , "mixed mode assignment to " + a.target);
             }
             return;
-        } 
+        } if (s instanceof Block) {
+            return;
+        }
         // student exercise
         throw new IllegalArgumentException("should never reach here");
     }
@@ -127,11 +139,11 @@ public class StaticTypeCheck {
     public static void main(String args[]) {
         Parser parser  = new Parser(new Lexer(args[0]));
         Program prog = parser.program();
-        // prog.display();           // student exercise
+        prog.display();           // student exercise
         System.out.println("\nBegin type checking...");
         System.out.println("Type map:");
         TypeMap map = typing(prog.decpart);
-        // map.display();   // student exercise
+        System.out.println(map.toString());   // student exercise
         V(prog);
     } //main
 
