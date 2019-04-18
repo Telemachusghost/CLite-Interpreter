@@ -1,0 +1,213 @@
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: x
+		Type: float
+		Variable: result
+		Type: float
+		Variable: a
+		Type: float
+		Variable: f
+		Type: bool
+	Body: 
+	Assignment:
+		Variable: a
+		FloatValue: 4.0
+	Assignment:
+		Variable: x
+		FloatValue: 1.0
+	Assignment:
+		Variable: f
+		BinaryOp:
+			OP: >
+			BinaryOp:
+				OP: *
+				Variable: x
+				Variable: x
+			BinaryOp:
+				OP: +
+				Variable: a
+				FloatValue: 1.0E-4
+	Assignment:
+		Variable: x
+		BinaryOp:
+			OP: /
+			BinaryOp:
+				OP: +
+				Variable: x
+				BinaryOp:
+					OP: /
+					Variable: a
+					Variable: x
+			FloatValue: 2.0
+	Assignment:
+		Variable: f
+		BinaryOp:
+			OP: ||
+			BinaryOp:
+				OP: >
+				BinaryOp:
+					OP: *
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: +
+					Variable: a
+					FloatValue: 1.0E-4
+			BinaryOp:
+				OP: <
+				BinaryOp:
+					OP: *
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: -
+					Variable: a
+					FloatValue: 1.0E-4
+	Loop: 
+		BinaryOp:
+			OP: ||
+			BinaryOp:
+				OP: >
+				BinaryOp:
+					OP: *
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: +
+					Variable: a
+					FloatValue: 1.0E-4
+			BinaryOp:
+				OP: <
+				BinaryOp:
+					OP: *
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: -
+					Variable: a
+					FloatValue: 1.0E-4
+		Assignment:
+			Variable: x
+			BinaryOp:
+				OP: /
+				BinaryOp:
+					OP: +
+					Variable: x
+					BinaryOp:
+						OP: /
+						Variable: a
+						Variable: x
+				FloatValue: 2.0
+	Assignment:
+		Variable: result
+		Variable: x
+
+Begin type checking...
+Type map:
+{result=float, a=float, f=bool, x=float}
+Output AST
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: x
+		Type: float
+		Variable: result
+		Type: float
+		Variable: a
+		Type: float
+		Variable: f
+		Type: bool
+	Body: 
+	Assignment:
+		Variable: a
+		FloatValue: 4.0
+	Assignment:
+		Variable: x
+		FloatValue: 1.0
+	Assignment:
+		Variable: f
+		BinaryOp:
+			OP: FLOAT>
+			BinaryOp:
+				OP: FLOAT*
+				Variable: x
+				Variable: x
+			BinaryOp:
+				OP: FLOAT+
+				Variable: a
+				FloatValue: 1.0E-4
+	Assignment:
+		Variable: x
+		BinaryOp:
+			OP: FLOAT/
+			BinaryOp:
+				OP: FLOAT+
+				Variable: x
+				BinaryOp:
+					OP: FLOAT/
+					Variable: a
+					Variable: x
+			FloatValue: 2.0
+	Assignment:
+		Variable: f
+		BinaryOp:
+			OP: ||
+			BinaryOp:
+				OP: FLOAT>
+				BinaryOp:
+					OP: FLOAT*
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: FLOAT+
+					Variable: a
+					FloatValue: 1.0E-4
+			BinaryOp:
+				OP: FLOAT<
+				BinaryOp:
+					OP: FLOAT*
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: FLOAT-
+					Variable: a
+					FloatValue: 1.0E-4
+	Loop: 
+		BinaryOp:
+			OP: ||
+			BinaryOp:
+				OP: FLOAT>
+				BinaryOp:
+					OP: FLOAT*
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: FLOAT+
+					Variable: a
+					FloatValue: 1.0E-4
+			BinaryOp:
+				OP: FLOAT<
+				BinaryOp:
+					OP: FLOAT*
+					Variable: x
+					Variable: x
+				BinaryOp:
+					OP: FLOAT-
+					Variable: a
+					FloatValue: 1.0E-4
+		Assignment:
+			Variable: x
+			BinaryOp:
+				OP: FLOAT/
+				BinaryOp:
+					OP: FLOAT+
+					Variable: x
+					BinaryOp:
+						OP: FLOAT/
+						Variable: a
+						Variable: x
+				FloatValue: 2.0
+	Assignment:
+		Variable: result
+		Variable: x
+Final State
+State: <result: 2.0, a: 4.0, f: true, x: 2.0, >

@@ -80,14 +80,14 @@ public class StaticTypeCheck {
             V (b.term1, tm);
             V (b.term2, tm);
             if (b.op.ArithmeticOp( ))  
-                check( typ1 == typ2 &&
+                check( 
                        (typ1 == Type.INT || typ1 == Type.FLOAT)
-                       , "type error for " + b.op);
+                       , "type error for " + b.op.val);
             else if (b.op.RelationalOp( )) 
-                check( typ1 == typ2 , "type error for " + b.op);
+                check( typ1 == typ2 , "type error for " + b.op.val);
             else if (b.op.BooleanOp( )) 
                 check( typ1 == Type.BOOL && typ2 == Type.BOOL,
-                       b.op + ": non-bool operand");
+                       b.op.val + ": non-bool operand");
             else
                 throw new IllegalArgumentException("should never reach here");
             return;
@@ -97,13 +97,13 @@ public class StaticTypeCheck {
             Type type = typeOf(u.term, tm);
             V(u.term, tm);
             if (u.op.NotOp()) {
-                check(type == Type.BOOL, "type error for " + u.op);
+                check(type == Type.BOOL, "type error for " + u.op.val);
                 return;
             } else if (u.op.NegateOp()) {
                 check(type == Type.INT || type == Type.FLOAT, u.op.val + ": Non numeric operand");
                 return;
             } else if (u.op.intOp()) {
-                check(type == Type.FLOAT, u.op.val + ": Non Float operand");
+                check(type == Type.FLOAT || type == Type.CHAR, u.op.val + ": Non Float operand");
                 return;
             } else if (u.op.floatOp()) {
                 check(type == Type.INT, u.op.val + ": Non Int operand");

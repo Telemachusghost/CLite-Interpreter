@@ -459,7 +459,7 @@ class Operator {
 
     public void display(int indent ) { 
         astDisplay.indentN(indent);
-        System.out.println("OP: " + val); 
+        System.out.println("OP: " + val.toString()); 
     }
     public boolean equals(Object obj) { return val.equals(obj); }
     
@@ -503,6 +503,7 @@ class Operator {
     final static String boolMap[ ] [ ] = {
         {EQ, BOOL_EQ}, {NE, BOOL_NE}, {LT, BOOL_LT},
         {LE, BOOL_LE}, {GT, BOOL_GT}, {GE, BOOL_GE},
+        {OR,OR}, {AND,AND}
     };
 
     final static private Operator map (String[][] tmap, String op) {

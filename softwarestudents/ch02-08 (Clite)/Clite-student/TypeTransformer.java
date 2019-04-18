@@ -18,9 +18,13 @@ public class TypeTransformer {
             Type typ2 = StaticTypeCheck.typeOf(b.term2, tm);
             Expression t1 = T (b.term1, tm);
             Expression t2 = T (b.term2, tm);
-            if (typ1 == Type.INT) 
+            if (typ1 == Type.INT && typ2 == Type.FLOAT) 
+                return new Binary(b.op.intMap(b.op.val), t1,new Unary (Operator.floatMap("int"),t2));
+            else if (typ1 == Type.INT) 
                 return new Binary(b.op.intMap(b.op.val), t1,t2);
-            else if (typ1 == Type.FLOAT) 
+            else if (typ1 == Type.FLOAT && typ2 == Type.INT) 
+                return new Binary(b.op.floatMap(b.op.val), t1,new Unary(Operator.intMap("float"),t2));
+            else if (typ1 == Type.FLOAT)
                 return new Binary(b.op.floatMap(b.op.val), t1,t2);
             else if (typ1 == Type.CHAR) 
                 return new Binary(b.op.charMap(b.op.val), t1,t2);

@@ -55,6 +55,7 @@ public class Lexer {
                 String spelling = concat(letters + digits);
                 return Token.keyword(spelling);
             } else if (isDigit(ch)) { // int or float literal
+                
                 String number = concat(digits);
                 if (ch != '.')  // int Literal
                     return Token.mkIntLiteral(number);
@@ -120,10 +121,13 @@ public class Lexer {
     }
   
     private boolean isDigit(char c) {
-        return false;  // student exercise
+        System.out.println("asdfasdfasdfadsfadsf");
+        return (c >= '0' && c <= '9');
+        // Student exercise
     }
 
     private void check(char c) {
+       
         ch = nextChar();
         if (ch != c) 
             error("Illegal character, expecting " + c);

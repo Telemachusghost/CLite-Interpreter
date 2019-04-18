@@ -1,0 +1,41 @@
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: c
+		Type: int
+		Variable: b
+		Type: float
+	Body: 
+	Assignment:
+		Variable: c
+		IntValue: 1
+	Assignment:
+		Variable: b
+		UnaryOp: 
+			OP: -
+			UnaryOp: 
+				OP: float
+				Variable: c
+
+Begin type checking...
+Type map:
+{b=float, c=int}
+Output AST
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: c
+		Type: int
+		Variable: b
+		Type: float
+	Body: 
+	Assignment:
+		Variable: c
+		IntValue: 1
+	Assignment:
+		Variable: b
+		UnaryOp: 
+			OP: FLOAT-
+			UnaryOp: 
+				OP: I2F
+				Variable: c
+Final State
+State: <b: -1.0, c: 1, >

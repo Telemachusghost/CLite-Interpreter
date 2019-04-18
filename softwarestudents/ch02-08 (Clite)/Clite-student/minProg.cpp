@@ -5,10 +5,12 @@ int main() {
 	char c;
 
 	b = !(false);
-	a = (int(3.14));
+	a = 0;
 	f = -float(2);
-	c = 'f'; 
+	c = 'b'; 
 	b = a <= 4;
 
 	a = a + int(f);
+
+	c = char(int(c) + int(c));
 }
