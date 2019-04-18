@@ -28,8 +28,32 @@ public class TypeTransformer {
                 return new Binary(b.op.boolMap(b.op.val), t1,t2);
             throw new IllegalArgumentException("should never reach here");
         }
-        // student exercise
-        throw new IllegalArgumentException("should never reach here");
+        if (e instanceof Unary) {
+            Unary u = (Unary) e;
+            Type type = StaticTypeCheck.typeOf(u.term,tm);
+            Expression t = T (u.term, tm);
+            if (u.op.NotOp()) {
+                return new Unary(u.op, t);
+            } if (u.op.intOp()) {
+                if (type == Type.FLOAT) {
+                    return new Unary(u.op.floatMap(u.op.val), t);
+                } else {
+                    return new Unary(u.op.charMap(u.op.val), t);
+                }   
+            } if (u.op.floatOp()) {
+                return new Unary(u.op.intMap(u.op.val), t);
+            } if (u.op.charOp()) {
+                return new Unary(u.op.intMap(u.op.val), t);
+            }
+            if (u.op.NegateOp()) {
+                if (type == Type.FLOAT) {
+                    return new Unary(u.op.floatMap(u.op.val),t);
+                } else {
+                    return new Unary(u.op.intMap(u.op.val), t);
+                }
+            }
+        }
+                throw new IllegalArgumentException("should never reach here");
     }
 
     public static Statement T (Statement s, TypeMap tm) {
@@ -91,7 +115,7 @@ public class TypeTransformer {
         StaticTypeCheck.V(prog);
         Program out = T(prog, map);
         System.out.println("Output AST");
-        // out.display();    // student exercise
+        out.display();    // student exercise
     } //main
 
     } // class TypeTransformer

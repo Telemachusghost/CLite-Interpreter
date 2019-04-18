@@ -1,21 +1,14 @@
 int main() {
 	int a;
 	bool b;
-	float c;
-	char d;
+	float f;
+	char c;
 
-	b = true;
-	b = false;
-	c = 3.14;
-	d = 'f';
+	b = !(false);
+	a = (int(3.14));
+	f = -float(2);
+	c = 'f'; 
+	b = a <= 4;
 
-	c = -c;
-
-	if (true) {
-
-	}
-
-	while (c) {
-
-	}
+	a = a + int(f);
 }

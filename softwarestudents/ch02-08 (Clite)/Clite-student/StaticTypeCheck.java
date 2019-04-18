@@ -102,6 +102,15 @@ public class StaticTypeCheck {
             } else if (u.op.NegateOp()) {
                 check(type == Type.INT || type == Type.FLOAT, u.op.val + ": Non numeric operand");
                 return;
+            } else if (u.op.intOp()) {
+                check(type == Type.FLOAT, u.op.val + ": Non Float operand");
+                return;
+            } else if (u.op.floatOp()) {
+                check(type == Type.INT, u.op.val + ": Non Int operand");
+                return;
+            } else if (u.op.charOp()) {
+                check(type == Type.INT, u.op.val + ": Improper conversion to char - Are you trying to convert an int?");
+                return;
             }
         }
         // student exercise

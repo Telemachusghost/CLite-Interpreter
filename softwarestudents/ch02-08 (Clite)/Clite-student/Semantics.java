@@ -64,7 +64,18 @@ public class Semantics {
             return new IntValue(v1.intValue( ) * v2.intValue( ));
         if (op.val.equals(Operator.INT_DIV)) 
             return new IntValue(v1.intValue( ) / v2.intValue( ));
+        if (op.val.equals(Operator.INT_LT))
+            return new BoolValue(v1.intValue() < v2.intValue());
+        if (op.val.equals(Operator.INT_LE))
+            return new BoolValue(v1.intValue() <= v2.intValue());
+        if (op.val.equals(Operator.INT_GT))
+            return new BoolValue(v1.intValue() > v2.intValue());
+        if (op.val.equals(Operator.INT_GE))
+            return new BoolValue(v1.intValue() >= v2.intValue());
+        if (op.val.equals(Operator.INT_EQ)) 
+            return new BoolValue(v1.intValue() == v2.intValue());
         // student exercise
+        // Implement all the binary operators
         throw new IllegalArgumentException("should never reach here");
     } 
     
@@ -73,9 +84,9 @@ public class Semantics {
                "reference to undef value");
         if (op.val.equals(Operator.NOT))
             return new BoolValue(!v.boolValue( ));
-        else if (op.val.equals(Operator.INT_NEG))
+        else if (op.val.equals(Operator.INT_MINUS))
             return new IntValue(-v.intValue( ));
-        else if (op.val.equals(Operator.FLOAT_NEG))
+        else if (op.val.equals(Operator.FLOAT_MINUS))
             return new FloatValue(-v.floatValue( ));
         else if (op.val.equals(Operator.I2F))
             return new FloatValue((float)(v.intValue( ))); 
@@ -85,7 +96,7 @@ public class Semantics {
             return new IntValue((int)(v.charValue( )));
         else if (op.val.equals(Operator.I2C))
             return new CharValue((char)(v.intValue( )));
-        throw new IllegalArgumentException("should never reach here");
+        throw new IllegalArgumentException("should never reach here" + op.val);
     } 
 
     Value M (Expression e, State state) {
@@ -108,18 +119,18 @@ public class Semantics {
     public static void main(String args[]) {
         Parser parser  = new Parser(new Lexer(args[0]));
         Program prog = parser.program();
-        // prog.display();    // student exercise
+        prog.display();    
         System.out.println("\nBegin type checking...");
         System.out.println("Type map:");
         TypeMap map = StaticTypeCheck.typing(prog.decpart);
-        // map.display();    // student exercise
+        System.out.println(map.toString());    // student exercise
         StaticTypeCheck.V(prog);
         Program out = TypeTransformer.T(prog, map);
         System.out.println("Output AST");
-        // out.display();    // student exercise
+        out.display();    
         Semantics semantics = new Semantics( );
         State state = semantics.M(out);
         System.out.println("Final State");
-        // state.display( );  // student exercise
+        state.display( );  // student exercise
     }
 }
