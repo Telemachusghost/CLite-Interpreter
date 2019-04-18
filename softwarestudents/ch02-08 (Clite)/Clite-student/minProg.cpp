@@ -8,4 +8,14 @@ int main() {
 	b = false;
 	c = 3.14;
 	d = 'f';
+
+	c = -c;
+
+	if (true) {
+
+	}
+
+	while (c) {
+
+	}
 }

@@ -96,10 +96,12 @@ public class StaticTypeCheck {
             Unary u = (Unary) e;
             Type type = typeOf(u.term, tm);
             V(u.term, tm);
-            if (u.op.NegateOp()) {
+            if (u.op.NotOp()) {
                 check(type == Type.BOOL, "type error for " + u.op);
+                return;
             } else if (u.op.NegateOp()) {
-                check(type == Type.INT || type == Type.FLOAT, u.op + ": Non numeric operand");
+                check(type == Type.INT || type == Type.FLOAT, u.op.val + ": Non numeric operand");
+                return;
             }
         }
         // student exercise
@@ -130,6 +132,29 @@ public class StaticTypeCheck {
             }
             return;
         } if (s instanceof Block) {
+            Block b = (Block) s;
+            for (Statement st : b.members) {
+                V (st, tm);
+            }
+            return;
+        }
+        if (s instanceof Conditional) {
+            Conditional c = (Conditional) s;
+            Type typeTest = typeOf(c.test, tm);
+            if (typeTest != Type.BOOL) {
+                check(false, "Test expression is not of bool type: " + c.test);
+            }
+            V(c.thenbranch, tm);
+            V(c.elsebranch, tm);
+            return;
+        } 
+        if (s instanceof Loop) {
+            Loop l = (Loop) s;
+            Type tTest = typeOf(l.test, tm);
+            if (tTest != Type.BOOL) {
+                check(false, "Loop test is not of type bool: " + l.test);
+            }
+            V(l.body,tm);
             return;
         }
         // student exercise
@@ -139,11 +164,11 @@ public class StaticTypeCheck {
     public static void main(String args[]) {
         Parser parser  = new Parser(new Lexer(args[0]));
         Program prog = parser.program();
-        prog.display();           // student exercise
+        prog.display();          
         System.out.println("\nBegin type checking...");
         System.out.println("Type map:");
         TypeMap map = typing(prog.decpart);
-        System.out.println(map.toString());   // student exercise
+        System.out.println(map.toString());   
         V(prog);
     } //main
 
