@@ -8,7 +8,7 @@ public class Lexer {
     private String line = "";
     private int lineno = 0;
     private int col = 1;
-    private final String letters = "abcdefghijklmnopqrstuvwxyz"
+    private final String letters = "abcdefghijklmnopqrstuvwxyz[]"
         + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String digits = "0123456789";
     private final char eolnCh = '\n';
