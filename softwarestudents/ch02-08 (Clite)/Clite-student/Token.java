@@ -1,3 +1,5 @@
+import javax.management.RuntimeErrorException;
+
 public class Token {
 
     private static final int KEYWORDS = TokenType.Eof.ordinal();
@@ -65,6 +67,21 @@ public class Token {
     } // keyword
 
     public static Token mkIdentTok (String name) {
+        for (int i = 0; i < name.length(); i++) {
+            if (name.charAt(i) == '[') {
+                int j = i;
+                while (true) {
+                    if ('0' <= name.charAt(j) && name.charAt(j) <= '9') {
+
+                    } else if (name.charAt(j) == ']') {
+                        return new Token(TokenType.ArrayIdentifier, name);
+                    } else if (j >= name.length()) {
+                        throw new IllegalArgumentException();
+                    }
+                    j++;
+                }
+            }
+        }
         return new Token(TokenType.Identifier, name);
     }
 

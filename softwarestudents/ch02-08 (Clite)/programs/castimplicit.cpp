@@ -2,7 +2,7 @@ int main ( ) {
     /*This is a multiline comment*/
     int n, i;
     float f;
-    int arr[4];
+    int arr[1232131234123];
     n = 3;
     i = 0;
     f = 1.0;
