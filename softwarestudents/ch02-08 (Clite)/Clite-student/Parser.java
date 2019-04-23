@@ -63,25 +63,36 @@ public class Parser {
     }
   
     private void declaration (Declarations ds) {
-        // Declaration  --> Type Identifier { , Identifier } ;
+        // Declaration  --> Type Identifier { , Identifier } ; | Type ArrayIdentifier ;
         // Match type
         String var;
 
         Type typeT = type();
 
         // Loop on identifier
-        var = match(TokenType.Identifier);
-        while (token.type() != TokenType.Semicolon) {
-            match(TokenType.Comma);
-            String vs = match(TokenType.Identifier);
-            Variable vV = new Variable(vs);
-            Declaration decT = new Declaration(vV, typeT);
+        if (token.type() == TokenType.Identifier) {
+            System.out.println("asdfa");
+            var = match(TokenType.Identifier);
+            while (token.type() != TokenType.Semicolon) {
+                match(TokenType.Comma);
+                String vs = match(TokenType.Identifier);
+                Variable vV = new Variable(vs);
+                Declaration decT = new Declaration(vV, typeT);
+                ds.add(decT);
+            }
+            match(TokenType.Semicolon);
+            Variable varV = new Variable(var);
+            Declaration dec = new Declaration(varV,typeT);
+            ds.add(dec);
+        } else {
+            var = match(TokenType.ArrayIdentifier);
+            int size = getArraySize(var);
+            ArrayVariable varV = new ArrayVariable(var,size);
+            Declaration decT = new Declaration(varV, typeT);
+            match(TokenType.Semicolon);
             ds.add(decT);
         }
-        match(TokenType.Semicolon);
-        Variable varV = new Variable(var);
-        Declaration dec = new Declaration(varV,typeT);
-        ds.add(dec);
+  
         // Match identifier
         // If no semicolon repeat loop 
         // Match semicolon
@@ -378,6 +389,21 @@ public class Parser {
     private boolean isBooleanLiteral( ) {
         return token.type().equals(TokenType.True) ||
             token.type().equals(TokenType.False);
+    }
+
+    private int getArraySize(String var) {
+        String digits = "";
+        int j = 0;
+        while (var.charAt(j) != '[') {
+            j++;
+        }
+        j++;
+        while (var.charAt(j) != ']') {
+            digits += var.charAt(j);
+            j++;
+        }
+        int intDigits = Integer.parseInt(digits);
+        return intDigits;
     }
     
     public static void main(String args[]) {

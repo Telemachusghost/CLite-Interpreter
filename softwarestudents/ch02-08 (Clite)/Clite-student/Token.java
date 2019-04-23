@@ -69,13 +69,17 @@ public class Token {
     public static Token mkIdentTok (String name) {
         for (int i = 0; i < name.length(); i++) {
             if (name.charAt(i) == '[') {
-                int j = i;
+                
+                int j = i+1;
                 while (true) {
                     if ('0' <= name.charAt(j) && name.charAt(j) <= '9') {
-
+                        
                     } else if (name.charAt(j) == ']') {
                         return new Token(TokenType.ArrayIdentifier, name);
                     } else if (j >= name.length()) {
+                        throw new IllegalArgumentException();
+                    } else {
+                        System.out.println(name.charAt(j));
                         throw new IllegalArgumentException();
                     }
                     j++;

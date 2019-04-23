@@ -174,7 +174,7 @@ class Loop extends Statement {
 }
 
 abstract class Expression {
-    // Expression = Variable | Value | Binary | Unary
+    // Expression = Variable | ArrayVariable | Value | Binary | Unary
 
     public abstract void display(int indent);
 
@@ -182,7 +182,7 @@ abstract class Expression {
 
 class Variable extends Expression {
     // Variable = String id
-    private String id;
+    protected String id;
 
     Variable (String s) { id = s; }
 
@@ -200,6 +200,21 @@ class Variable extends Expression {
         System.out.println("Variable: " + id);
     }
 
+}
+
+class ArrayVariable extends Variable {
+    private int size;
+
+    ArrayVariable(String s, int len) {super(s);size = len;}
+
+    public int hashCode ( ) { return id.hashCode( ); }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("ArrayVariable: " + id);
+        astDisplay.indentN(indent);
+        System.out.println("Size: " + size);
+    }
 }
 
 abstract class Value extends Expression {
