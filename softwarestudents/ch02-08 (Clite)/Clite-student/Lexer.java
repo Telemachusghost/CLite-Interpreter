@@ -67,12 +67,28 @@ public class Lexer {
             
             case '/':  // divide or comment
                 ch = nextChar();
-                if (ch != '/')  return Token.divideTok;
+                char ch2;
+                if (ch != '/' && ch != '*')  return Token.divideTok;
+                // Multi line comment
+                if (ch == '*') {
+                    do {
+                        ch = nextChar();
+                    } while (ch != '*');
+                    if (nextChar() == '/') {
+
+                    } else {
+                        error("illegal multiline comment");
+                    }
+                }
                 // comment
-                do {
-                    ch = nextChar();
-                } while (ch != eolnCh);
-                ch = nextChar();
+                else {
+                    do {
+                        ch = nextChar();
+                    } while (ch != eolnCh);
+                }
+                
+                
+                ch = nextChar(); 
                 break;
             
             case '\'':  // char literal
@@ -160,7 +176,7 @@ public class Lexer {
 
     public void error (String msg) {
         System.err.print(line);
-        System.err.println("Error: column " + col + " " + msg);
+        System.err.println("Error: column " + col + " line " + lineno + " " + msg);
         System.exit(1);
     }
 
