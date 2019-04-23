@@ -205,7 +205,10 @@ class Variable extends Expression {
 class ArrayVariable extends Variable {
     private int size;
 
-    ArrayVariable(String s, int len) {super(s);size = len;}
+    ArrayVariable(String s, int len) {
+        super(s.substring(0, s.indexOf("[")));
+        size = len;
+    }
 
     public int hashCode ( ) { return id.hashCode( ); }
 
