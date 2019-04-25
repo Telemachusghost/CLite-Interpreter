@@ -136,6 +136,9 @@ public class Parser {
             case Identifier:
                 s =  assignment();
                 return s;
+            case ArrayIdentifier:
+                s = assignment();
+                return s;
             case If:
                 s = ifStatement();
                 return s;
@@ -167,19 +170,33 @@ public class Parser {
   
     private Assignment assignment () {
         // Assignment --> Identifier = Expression ;
-        
-        String ident = match(TokenType.Identifier);
-
-        Variable var = new Variable(ident);
+        if (token.type() == TokenType.Identifier) {
+            String ident = match(TokenType.Identifier);
+            Variable var = new Variable(ident);
 
         
        
-        match(TokenType.Assign);
-        Expression express = expression();
-        Assignment assign = new Assignment(var, express);
-        match(TokenType.Semicolon);
+            match(TokenType.Assign);
+            Expression express = expression();
+            Assignment assign = new Assignment(var, express);
+            match(TokenType.Semicolon);
+    
+            return assign;  // student exercise
+        } else  {
+            String ident = match(TokenType.ArrayIdentifier);
+            ArrayIndexVar var = new ArrayIndexVar(ident,
+                                                  Integer.parseInt(ident.substring(ident.indexOf("[")+1,ident.indexOf("]"))));
 
-        return assign;  // student exercise
+            match(TokenType.Assign);
+            Expression express = expression();
+            Assignment assign = new Assignment(var, express);
+            match(TokenType.Semicolon);
+
+            return assign;
+        }
+        
+
+       
     }
   
     private Conditional ifStatement () {

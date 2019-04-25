@@ -206,8 +206,8 @@ class ArrayVariable extends Variable {
     private int size;
 
     ArrayVariable(String s, int len) {
-        super(s.substring(0, s.indexOf("[")));
-        size = len;
+        super(s); // Just hold the array name not the brackets
+        size = len;                            // Hold the size of the array in the abstractsyntax
     }
 
     public int hashCode ( ) { return id.hashCode( ); }
@@ -217,6 +217,25 @@ class ArrayVariable extends Variable {
         System.out.println("ArrayVariable: " + id);
         astDisplay.indentN(indent);
         System.out.println("Size: " + size);
+    }
+}
+
+class ArrayIndexVar extends Variable {
+    private int indexNum;
+    ArrayIndexVar(String arrayName, int i) {
+        super(arrayName);  
+        indexNum = i;
+        
+                
+    }
+
+    public int hashCode ( ) { return id.hashCode( ); }
+
+    public void display(int indent) {
+        astDisplay.indentN(indent);
+        System.out.println("ArrayIndexVar: " + id );
+        astDisplay.indentN(indent);
+        System.out.println("Index: " + indexNum);
     }
 }
 
