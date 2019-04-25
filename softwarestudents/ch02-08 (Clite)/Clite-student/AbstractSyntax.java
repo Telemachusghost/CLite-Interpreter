@@ -204,10 +204,12 @@ class Variable extends Expression {
 
 class ArrayVariable extends Variable {
     private int size;
+    
 
-    ArrayVariable(String s, int len) {
-        super(s); // Just hold the array name not the brackets
+    ArrayVariable(String s,int len) {
+        super(s.substring(0,s.indexOf("["))); // Just hold the array name not the brackets
         size = len;                            // Hold the size of the array in the abstractsyntax
+        
     }
 
     public int hashCode ( ) { return id.hashCode( ); }

@@ -184,8 +184,9 @@ public class Parser {
             return assign;  // student exercise
         } else  {
             String ident = match(TokenType.ArrayIdentifier);
-            ArrayIndexVar var = new ArrayIndexVar(ident,
-                                                  Integer.parseInt(ident.substring(ident.indexOf("[")+1,ident.indexOf("]"))));
+            int indexNum = Integer.parseInt(ident.substring(ident.indexOf("[")+1,ident.indexOf("]")));
+            String arrName = ident.substring(0, ident.indexOf("["));
+            ArrayIndexVar var = new ArrayIndexVar(arrName, indexNum);
 
             match(TokenType.Assign);
             Expression express = expression();
@@ -317,6 +318,9 @@ public class Parser {
         Expression e = null;
         if (token.type().equals(TokenType.Identifier)) {
             e = new Variable(match(TokenType.Identifier));
+        } else if (token.type().equals(TokenType.ArrayIdentifier)) {
+            String var = match(TokenType.ArrayIdentifier);
+            e = new ArrayIndexVar(getArrayName(var), getArrayIndex(var));
         } else if (isLiteral()) {
             e = literal();
         } else if (token.type().equals(TokenType.LeftParen)) {
@@ -421,6 +425,14 @@ public class Parser {
         }
         int intDigits = Integer.parseInt(digits);
         return intDigits;
+    }
+
+    private String getArrayName(String var) {
+        return var.substring(0, var.indexOf("["));
+    }
+
+    private int getArrayIndex(String var) {
+        return Integer.parseInt(var.substring(var.indexOf("[")+1, var.indexOf("]")));
     }
     
     public static void main(String args[]) {

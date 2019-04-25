@@ -12,6 +12,7 @@ public class StaticTypeCheck {
     public static TypeMap typing (Declarations d) {
         TypeMap map = new TypeMap();
         for (Declaration di : d) 
+            
             map.put (di.v, di.t);
         return map;
     }
