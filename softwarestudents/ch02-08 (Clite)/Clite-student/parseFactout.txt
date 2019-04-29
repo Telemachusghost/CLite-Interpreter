@@ -1,0 +1,36 @@
+Program (Abstract Syntax):
+	Declarations: 
+		Variable: i
+		Type: int
+		Variable: f
+		Type: int
+		Variable: n
+		Type: int
+	Body: 
+	Assignment:
+		Variable: n
+		IntValue: 3
+	Assignment:
+		Variable: i
+		IntValue: 1
+	Assignment:
+		Variable: f
+		IntValue: 1
+	Loop: 
+		BinaryOp:
+			OP: <
+			Variable: i
+			Variable: n
+		Body: 
+		Assignment:
+			Variable: i
+			BinaryOp:
+				OP: +
+				Variable: i
+				IntValue: 1
+		Assignment:
+			Variable: f
+			BinaryOp:
+				OP: *
+				Variable: f
+				Variable: i
