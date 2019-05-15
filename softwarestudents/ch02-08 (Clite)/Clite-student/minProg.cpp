@@ -9,8 +9,13 @@ int main() {
 	f = -float(2);
 	c = 'b'; 
 	b = a <= 4;
+	f = 3.14;
+	a = 50;
 
-	a = a + int(f);
+	//a = f;
+	a = f * a;
 
-	c = char(int(c) + int(c));
+	//a = a + int(f);
+
+	//c = char(int(c) + int(c));
 }

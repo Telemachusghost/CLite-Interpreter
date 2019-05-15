@@ -129,15 +129,14 @@ public class StaticTypeCheck {
             Type ttype = (Type)tm.get(a.target);
             Type srctype = typeOf(a.source, tm);
             if (ttype != srctype) {
-                if (ttype == Type.FLOAT)
+                if (ttype == Type.BOOL)
                     check( srctype == Type.INT
                            , "mixed mode assignment to " + a.target);
-                else if (ttype == Type.INT)
+                else if (ttype == Type.BOOL)
                     check( srctype == Type.CHAR
                            , "mixed mode assignment to " + a.target);
-                else
-                    check( false
-                           , "mixed mode assignment to " + a.target);
+                
+                
             }
             return;
         } if (s instanceof Block) {

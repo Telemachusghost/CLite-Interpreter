@@ -79,9 +79,14 @@ public class TypeTransformer {
                     src = new Unary(new Operator(Operator.C2I), src);
                     srctype = Type.INT;
                 }
-            }
+                if (srctype == Type.FLOAT) {
+                    src = new Unary(new Operator(Operator.F2I), src);
+                    srctype = Type.INT;
+                }
+            } 
+            
             StaticTypeCheck.check( ttype == srctype,
-                      "bug in assignment to " + target);
+                      "bug in assignment to " + ttype + "" + srctype);
             return new Assignment(target, src);
         } 
         if (s instanceof Conditional) {
